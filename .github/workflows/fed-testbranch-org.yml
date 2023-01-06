@@ -1,4 +1,4 @@
-name: fed-testbranch
+name: fed-testbranch-org
  
 # Required for OIDC
 permissions:

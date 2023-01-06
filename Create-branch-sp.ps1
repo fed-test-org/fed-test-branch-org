@@ -8,7 +8,7 @@ $tf_sp_name               = 'devbranchtest-org-tf-gh-sp'
 $ghUsername               = 'mcarter106'
 $ghPAT                    = ''
 $ghOrgName                = 'fed-test-org'
-$ghRepoName               = 'fed-test-org-pr'
+$ghRepoName               = 'fed-test-branch-org'
 $ghBranchName             = 'michelle-test'
 
 $subscriptionId = (Get-AzContext).Subscription.Id
@@ -86,7 +86,10 @@ if (-Not [string]::IsNullOrEmpty($ghPAT))
             visibility      = 'selected'
         } | ConvertTo-Json
 
+        if (-Not (Invoke-WebRequest -Uri "https://api.github.com/orgs/$ghOrgName/actions/secrets/$($secret.Name)" -Headers $headers ))
+        {
         $response += Invoke-WebRequest -Uri " https://api.github.com/orgs/$ghOrgName/actions/secrets/$($secret.Key)" -Method Put -Headers $headers -Body $clientIdBody
+        }
         $response += Invoke-WebRequest -Uri "https://api.github.com/orgs/$ghOrgName/actions/secrets/$($secret.Key)/repositories/$repoId" -Method Put -Headers $headers
     }
 }
